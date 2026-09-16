@@ -173,7 +173,7 @@ function Navbar() {
         >
           <span className="flex w-full h-full rounded-full bg-bg items-center justify-center group-hover:scale-[1.08] transition-transform duration-300">
             <span className="font-display italic text-[13px] text-text-primary leading-none">
-              JA
+              HQ
             </span>
           </span>
         </a>
@@ -202,7 +202,7 @@ function Navbar() {
 
         {/* Say hi */}
         <a
-          href="mailto:hello@michaelsmith.com"
+          href="mailto:7amzaqady@gmail.com"
           className="group relative inline-flex items-center gap-1.5 text-xs sm:text-sm rounded-full px-3 sm:px-4 py-1.5 sm:py-2 font-body text-text-primary transition-colors overflow-visible"
         >
           {/* gradient border behind on hover */}
@@ -224,7 +224,7 @@ function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLElement>(null);
   const [roleIndex, setRoleIndex] = useState(0);
-  const roles = ["Creative", "Fullstack", "Founder", "Scholar"];
+  const roles = ["Visual Identity", "Frontend", "AI Creator", "Educator"];
 
   // hls video
   useEffect(() => {
@@ -311,25 +311,24 @@ function Hero() {
         </p>
 
         <h1 className="name-reveal text-6xl md:text-8xl lg:text-9xl font-display italic leading-[0.9] tracking-tight text-text-primary mb-6">
-          Michael
+          Hamza
           <br />
-          Smith
+          Al-Qadi
         </h1>
 
         <p className="blur-in text-sm md:text-base text-muted mb-3 font-body">
           A{" "}
           <span
             key={roleIndex}
-            className="font-display italic text-text-primary animate-role-fade-in inline-block min-w-[92px] text-left"
+            className="font-display italic text-text-primary animate-role-fade-in inline-block min-w-[150px] text-left"
           >
             {roles[roleIndex]}
           </span>{" "}
-          lives in Chicago.
+          lives in Damascus.
         </p>
 
         <p className="blur-in text-sm md:text-base text-muted max-w-md mb-12 leading-relaxed font-body">
-          Designing seamless digital interactions by focusing on the unique
-          nuances which bring systems to life.
+          Visual Identity Designer & Frontend Developer combining visual thinking with code to create clear, practical, and polished brand & web experiences.
         </p>
 
         <div className="blur-in inline-flex flex-col sm:flex-row gap-4">
@@ -350,7 +349,7 @@ function Hero() {
 
           {/* Reach out - outlined */}
           <a
-            href="mailto:hello@michaelsmith.com"
+            href="mailto:7amzaqady@gmail.com"
             className="group relative inline-flex items-center justify-center rounded-full text-sm px-7 py-3.5 font-medium border-2 border-stroke bg-bg text-text-primary hover:border-transparent hover:scale-105 transition-all duration-300 overflow-visible"
           >
             <span className="absolute -inset-[2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
@@ -378,25 +377,25 @@ function Hero() {
 // -----------------------------------------------------------------------------
 const projects = [
   {
-    title: "Automotive Motion",
+    title: "Brand Identity Systems",
     span: "md:col-span-7",
     img: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=1200&q=80",
     ratio: "aspect-[4/3] md:aspect-[1.6/1]",
   },
   {
-    title: "Urban Architecture",
+    title: "Frontend Interfaces",
     span: "md:col-span-5",
     img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
     ratio: "aspect-[4/3] md:aspect-[1/1]",
   },
   {
-    title: "Human Perspective",
+    title: "AI-Assisted Concepts",
     span: "md:col-span-5",
     img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80",
     ratio: "aspect-[4/3] md:aspect-[1/1]",
   },
   {
-    title: "Brand Identity",
+    title: "Robotics & Learning",
     span: "md:col-span-7",
     img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80",
     ratio: "aspect-[4/3] md:aspect-[1.6/1]",
@@ -514,25 +513,25 @@ function SelectedWorks() {
 // -----------------------------------------------------------------------------
 const journalEntries = [
   {
-    title: "Designing for the unknown: embracing ambiguity",
+    title: "Visual identity systems that scale",
     date: "Mar 12, 2026",
     read: "5 min read",
     img: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=400&q=80",
   },
   {
-    title: "The art of subtle motion in interface design",
+    title: "Responsive interfaces with React & REST APIs",
     date: "Feb 28, 2026",
     read: "4 min read",
     img: "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?auto=format&fit=crop&w=400&q=80",
   },
   {
-    title: "Color systems that scale beyond the palette",
+    title: "AI-assisted design & development workflows",
     date: "Feb 14, 2026",
     read: "6 min read",
     img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80",
   },
   {
-    title: "Building design culture in remote teams",
+    title: "Teaching robotics & creative thinking",
     date: "Jan 30, 2026",
     read: "7 min read",
     img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80",
@@ -747,8 +746,7 @@ function Explorations() {
             Visual <span className="italic">playground</span>
           </h2>
           <p className="text-sm md:text-base text-muted max-w-md mx-auto mb-8 font-body leading-relaxed">
-            A space for experiments, unfinished ideas and visual curiosity.
-            Updated sporadically.
+            Experiments in brand, web, AI and robotics — unfinished ideas and visual curiosity.
           </p>
           <a
             href="https://dribbble.com"
@@ -856,9 +854,9 @@ function Explorations() {
 // -----------------------------------------------------------------------------
 function Stats() {
   const stats = [
-    { value: "20+", label: "Years Experience" },
-    { value: "95+", label: "Projects Done" },
-    { value: "200%", label: "Satisfied Clients" },
+    { value: "2+", label: "Years Experience" },
+    { value: "30+", label: "Projects Delivered" },
+    { value: "100%", label: "Commitment & Care" },
   ];
 
   return (
@@ -882,6 +880,284 @@ function Stats() {
               </div>
             </motion.div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Resume / CV
+// -----------------------------------------------------------------------------
+function Resume() {
+  return (
+    <section id="resume" className="bg-bg py-16 md:py-24 border-t border-stroke/30">
+      <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
+          className="mb-12"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <span className="w-8 h-px bg-stroke" />
+            <span className="text-xs text-muted uppercase tracking-[0.3em] font-body">
+              Résumé — CV
+            </span>
+          </div>
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+            <div>
+              <h2 className="text-4xl md:text-5xl lg:text-[48px] font-display leading-none text-text-primary mb-4">
+                Experience <span className="italic">& education</span>
+              </h2>
+              <p className="text-sm text-muted max-w-xl font-body leading-relaxed">
+                Visual Identity Designer & Frontend Developer with a technical
+                background in Communications and Electronics Engineering.
+                Passionate about clear, practical, and polished digital
+                experiences.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="mailto:7amzaqady@gmail.com"
+                className="group relative inline-flex items-center gap-2 rounded-full border border-stroke bg-transparent text-text-primary text-sm px-6 py-3 font-body hover:border-transparent transition-colors overflow-visible"
+              >
+                <span className="absolute -inset-[1.5px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
+                <span className="absolute inset-0 rounded-full bg-bg -z-10" />
+                <span className="relative flex items-center gap-2">
+                  7amzaqady@gmail.com <span>↗</span>
+                </span>
+              </a>
+              <a
+                href="tel:+963993720719"
+                className="inline-flex items-center gap-2 rounded-full bg-text-primary text-bg text-sm px-6 py-3 font-body hover:scale-105 transition-transform"
+              >
+                +963 993 720 719
+              </a>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Core Skills */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 mb-10">
+          {[
+            {
+              title: "Brand & Visual Identity",
+              desc: "Logo Design, Visual Identity Systems, Adobe Illustrator, Typography, Color Systems",
+            },
+            {
+              title: "Frontend Development",
+              desc: "HTML5, CSS3, JavaScript (ES6+), React, Responsive Design, REST API, Git/GitHub",
+            },
+            {
+              title: "Creative Technology",
+              desc: "AI-assisted Design & Development, Rapid Prototyping, Problem Solving, Technical Education",
+            },
+          ].map((skill) => (
+            <div
+              key={skill.title}
+              className="bg-surface border border-stroke rounded-3xl p-6 md:p-7"
+            >
+              <h3 className="text-sm font-medium text-text-primary font-body mb-2">
+                {skill.title}
+              </h3>
+              <p className="text-xs md:text-sm text-muted leading-relaxed font-body">
+                {skill.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+          {/* Experience */}
+          <div className="lg:col-span-7">
+            <h3 className="text-xs text-muted uppercase tracking-[0.3em] font-body mb-4 flex items-center gap-3">
+              <span className="w-6 h-px bg-stroke" /> Experience
+            </h3>
+            <div className="space-y-4">
+              {[
+                {
+                  org: "Tmakin Foundation — Syria",
+                  role: "Trainer & Co-Founder",
+                  time: "2025 — Present",
+                  points: [
+                    "Train mosque students in computer skills and practical use of artificial intelligence.",
+                    "Train students in robotics design and programming.",
+                  ],
+                },
+                {
+                  org: "Badr Al-Din Al-Husayni School — Syria",
+                  role: "IT & Robotics Instructor",
+                  time: "2024 — 2025",
+                  points: [
+                    "Taught IT concepts and introductory programming.",
+                    "Trained students in robotics design and programming using practical methods.",
+                    "Designed practical activities that encourage creative thinking and problem solving.",
+                  ],
+                },
+                {
+                  org: "Takaful Al-Sham Organization — Syria",
+                  role: "Field Volunteer",
+                  time: "2025",
+                  points: [
+                    "Supported field activities for crisis-affected communities within a multi-task team.",
+                  ],
+                },
+              ].map((exp) => (
+                <div
+                  key={exp.org}
+                  className="bg-surface/50 hover:bg-surface border border-stroke rounded-3xl p-6 md:p-7 transition-colors"
+                >
+                  <div className="flex flex-wrap items-start justify-between gap-3 mb-3">
+                    <div>
+                      <h4 className="text-sm md:text-base font-medium text-text-primary font-body">
+                        {exp.org}
+                      </h4>
+                      <p className="text-sm text-muted font-body">{exp.role}</p>
+                    </div>
+                    <span className="text-xs text-muted font-body bg-bg border border-stroke rounded-full px-3 py-1">
+                      {exp.time}
+                    </span>
+                  </div>
+                  <ul className="space-y-1.5">
+                    {exp.points.map((pt) => (
+                      <li
+                        key={pt}
+                        className="text-xs md:text-sm text-muted font-body flex gap-2 leading-relaxed"
+                      >
+                        <span className="mt-[7px] w-1 h-1 rounded-full bg-muted flex-shrink-0" />
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            {/* Selected Projects teaser */}
+            <div className="mt-6 bg-surface border border-stroke rounded-3xl p-6 md:p-7">
+              <h4 className="text-sm font-medium text-text-primary font-body mb-3">
+                Selected Projects
+              </h4>
+              <ul className="space-y-2 text-xs md:text-sm text-muted font-body leading-relaxed">
+                <li className="flex gap-2">
+                  <span className="text-text-primary">•</span>
+                  <span>
+                    <b className="text-text-primary font-medium">
+                      Visual Identity Projects
+                    </b>{" "}
+                    — Logo systems, visual directions, typography & color
+                    systems, brand applications.
+                  </span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-text-primary">•</span>
+                  <span>
+                    <b className="text-text-primary font-medium">
+                      Frontend Web Projects
+                    </b>{" "}
+                    — Responsive interfaces built with HTML, CSS, JavaScript,
+                    and React, combining visual design with implementation.
+                  </span>
+                </li>
+              </ul>
+              <p className="text-xs text-muted/70 font-body mt-3 italic">
+                Portfolio works will be added next — these cards will link to
+                your real projects.
+              </p>
+            </div>
+          </div>
+
+          {/* Education & side */}
+          <div className="lg:col-span-5 space-y-6">
+            <div>
+              <h3 className="text-xs text-muted uppercase tracking-[0.3em] font-body mb-4 flex items-center gap-3">
+                <span className="w-6 h-px bg-stroke" /> Education
+              </h3>
+              <div className="bg-surface border border-stroke rounded-3xl p-6 md:p-7">
+                <h4 className="text-sm font-medium text-text-primary font-body">
+                  Damascus University
+                </h4>
+                <p className="text-sm text-muted font-body">
+                  Faculty of Mechanical & Electrical Engineering
+                </p>
+                <p className="text-sm text-text-primary font-body mt-1 font-medium">
+                  Communications & Electronics Engineering — 3rd Year
+                </p>
+                <p className="text-xs text-muted font-body mt-1">
+                  Sep 2023 — Present
+                </p>
+                <ul className="mt-4 space-y-1.5">
+                  <li className="text-xs md:text-sm text-muted font-body flex gap-2 leading-relaxed">
+                    <span className="mt-[7px] w-1 h-1 rounded-full bg-muted flex-shrink-0" />
+                    <span>
+                      Advanced study in communication networks, transmission
+                      systems, and signal processing.
+                    </span>
+                  </li>
+                  <li className="text-xs md:text-sm text-muted font-body flex gap-2 leading-relaxed">
+                    <span className="mt-[7px] w-1 h-1 rounded-full bg-muted flex-shrink-0" />
+                    <span>
+                      Academic projects applying programming and data analysis
+                      concepts.
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="bg-surface/50 border border-stroke rounded-3xl p-6 md:p-7">
+              <h4 className="text-sm font-medium text-text-primary font-body mb-3">
+                Certifications & Languages
+              </h4>
+              <ul className="space-y-2 text-xs md:text-sm text-muted font-body">
+                <li className="flex gap-2">
+                  <span className="text-text-primary">•</span> International
+                  Computer Driving Licence (ICDL)
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-text-primary">•</span> Training in
+                  AI-assisted website & application creation
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-text-primary">•</span> Training in
+                  visual identity design & creation
+                </li>
+              </ul>
+              <div className="mt-4 pt-4 border-t border-stroke flex flex-wrap gap-2">
+                <span className="text-xs bg-bg border border-stroke rounded-full px-3 py-1.5 font-body text-text-primary">
+                  Arabic — Native
+                </span>
+                <span className="text-xs bg-bg border border-stroke rounded-full px-3 py-1.5 font-body text-text-primary">
+                  English — B2 Upper-Intermediate
+                </span>
+              </div>
+            </div>
+
+            <div className="bg-surface border border-stroke rounded-3xl p-6">
+              <h4 className="text-sm font-medium text-text-primary font-body mb-2">
+                Professional Strengths
+              </h4>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  "Team Collaboration",
+                  "Adaptability",
+                  "Composure Under Pressure",
+                  "Clear Communication",
+                  "Reliability",
+                  "Fast Learning",
+                ].map((s) => (
+                  <span
+                    key={s}
+                    className="text-xs bg-bg border border-stroke rounded-full px-3 py-1.5 font-body text-muted"
+                  >
+                    {s}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -967,7 +1243,7 @@ function ContactFooter() {
                 key={i}
                 className="text-5xl md:text-7xl lg:text-8xl font-display italic text-white/90 tracking-tight px-6 md:px-10 select-none flex-shrink-0"
               >
-                BUILDING THE FUTURE •{" "}
+                CRAFTING IDENTITIES •{" "}
               </span>
             ))}
             {/* duplicate for seamless loop */}
@@ -977,7 +1253,7 @@ function ContactFooter() {
                 className="text-5xl md:text-7xl lg:text-8xl font-display italic text-white/90 tracking-tight px-6 md:px-10 select-none flex-shrink-0"
                 aria-hidden
               >
-                BUILDING THE FUTURE •{" "}
+                CRAFTING IDENTITIES •{" "}
               </span>
             ))}
           </div>
@@ -989,27 +1265,40 @@ function ContactFooter() {
             Get in touch
           </p>
           <h2 className="text-4xl md:text-6xl lg:text-7xl font-display italic text-white leading-none mb-8">
-            Let&apos;s create
+            Let&apos;s build
             <br />
-            something great
+            something meaningful
           </h2>
 
           <a
-            href="mailto:hello@michaelsmith.com"
+            href="mailto:7amzaqady@gmail.com"
             className="group relative inline-flex items-center justify-center rounded-full bg-white text-black text-sm md:text-base px-8 md:px-10 py-4 font-medium hover:scale-105 transition-transform duration-300 overflow-visible"
           >
             <span className="absolute -inset-[2px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
             <span className="absolute inset-0 rounded-full bg-white group-hover:bg-white transition-colors -z-10" />
             <span className="relative flex items-center gap-2">
-              hello@michaelsmith.com <span>↗</span>
+              7amzaqady@gmail.com <span>↗</span>
             </span>
           </a>
+          <div className="mt-4">
+            <a
+              href="tel:+963993720719"
+              className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white font-body transition-colors"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+              +963 993 720 719
+            </a>
+            <span className="mx-2 text-white/20">•</span>
+            <span className="text-sm text-white/60 font-body">
+              Damascus, Syria
+            </span>
+          </div>
 
           {/* Footer Bar */}
           <div className="mt-16 md:mt-20 flex flex-col md:flex-row items-center justify-between gap-6 border-t border-white/10 pt-8">
             <div className="flex items-center gap-6 text-xs text-white/60 font-body">
-              <span className="hidden sm:inline">© 2026 Michael Smith. All rights reserved.</span>
-              <span className="sm:hidden">© 2026 Michael Smith</span>
+              <span className="hidden sm:inline">© 2026 Hamza Ibrahim Al-Qadi. All rights reserved.</span>
+              <span className="sm:hidden">© 2026 Hamza Al-Qadi</span>
               <div className="hidden md:flex items-center gap-4 ml-2">
                 {["Twitter", "LinkedIn", "Dribbble", "GitHub"].map((s) => (
                   <a
@@ -1091,11 +1380,9 @@ export default function App() {
         <Journal />
         <Explorations />
         <Stats />
+        <Resume />
         <ContactFooter />
       </motion.div>
-
-      {/* hidden resume anchor for nav */}
-      <div id="resume" className="sr-only" aria-hidden />
     </div>
   );
 }
