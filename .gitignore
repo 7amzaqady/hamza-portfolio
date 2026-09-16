@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+originkit-0.2.25.tgz
+public/demo.html
+public/space-thread-demo.html
