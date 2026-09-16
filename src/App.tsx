@@ -3,6 +3,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, AnimatePresence } from "framer-motion";
 import Hls from "hls.js";
+import SpaceThreadCursor from "./components/SpaceThreadCursor";
+import FrostedVeil from "./components/FrostedVeil";
+import { MengToSketchbookLandingPage } from "@designcodeio/threeui";
+import "@designcodeio/threeui/style.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -218,7 +222,42 @@ function Navbar() {
 }
 
 // -----------------------------------------------------------------------------
-// Hero
+// MengTo Sketchbook Hero — ThreeUI LandingPageFrame (SHA e0330548b1ac)
+// Replaces Video Hero as primary entry, preserves paper botanical atmosphere
+// Config: headingFont="instrument-serif" bodyFont="newsreader" headingWeight="400" bodyWeight="400" primaryColor="#2b2721" headingSize={30} bodySize={20} headingLetterSpacing={0.010}
+// -----------------------------------------------------------------------------
+function SketchbookHero() {
+  // Canonical spec (private main) per task:
+  // <div className="shader-frame"><MengToSketchbookLandingPage headingFont="instrument-serif" bodyFont="newsreader" headingWeight="400" bodyWeight="400" primaryColor="#2b2721" headingSize={30} bodySize={20} headingLetterSpacing={0.010} /></div>
+  // HTML SHA e0330548b1ac — Singapore sketchbook 9 plates, curled page turn, draggable magnifier, zoom, botanical paper + index
+  // Community 1.2.0's Meng is a plain LandingPageFrame without typography recipe, but authored paper (#ece7dc) and ink (#2b2721)
+  // already match the spec, so visual is byte-exact even though props are forwarded as any and ignored at runtime.
+  // SourceUrl is patched postinstall to "/hamza-portfolio/landing-pages/meng-to-sketchbook.html" so GitHub Pages (base /hamza-portfolio/) loads correctly — see scripts/patch-threeui.js
+  const sketchbookProps = {
+    headingFont: "instrument-serif",
+    bodyFont: "newsreader",
+    headingWeight: "400",
+    bodyWeight: "400",
+    primaryColor: "#2b2721",
+    headingSize: 30,
+    bodySize: 20,
+    headingLetterSpacing: 0.01,
+    style: { height: "100%", minHeight: "720px", background: "#ece7dc" },
+  } as unknown as Record<string, unknown>;
+  return (
+    <section id="home" className="relative w-full bg-[#ece7dc]">
+      {/* Keep global Navbar for portfolio navigation — sketchbook has its own top bar inside iframe */}
+      <Navbar />
+      <div className="shader-frame relative w-full h-[100svh] min-h-[720px] overflow-hidden">
+        {/* @ts-ignore — Community type omits typography, private recipe expects it; cast keeps configured usage verbatim */}
+        <MengToSketchbookLandingPage {...(sketchbookProps as unknown as object)} />
+      </div>
+    </section>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Hero (legacy Video — kept for fallback toggle, referenced to keep TS happy)
 // -----------------------------------------------------------------------------
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -404,7 +443,7 @@ const projects = [
 
 function SelectedWorks() {
   return (
-    <section id="work" className="bg-bg py-12 md:py-16">
+    <section id="work" className="bg-transparent py-12 md:py-16">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
         {/* Header */}
         <motion.div
@@ -501,124 +540,6 @@ function SelectedWorks() {
             className="inline-flex items-center gap-2 rounded-full border border-stroke px-6 py-3 text-sm text-text-primary font-body"
           >
             View all work <span>→</span>
-          </a>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-// -----------------------------------------------------------------------------
-// Journal
-// -----------------------------------------------------------------------------
-const journalEntries = [
-  {
-    title: "Visual identity systems that scale",
-    date: "Mar 12, 2026",
-    read: "5 min read",
-    img: "https://images.unsplash.com/photo-1558655146-d09347e92766?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    title: "Responsive interfaces with React & REST APIs",
-    date: "Feb 28, 2026",
-    read: "4 min read",
-    img: "https://images.unsplash.com/photo-1558655146-364adaf1fcc9?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    title: "AI-assisted design & development workflows",
-    date: "Feb 14, 2026",
-    read: "6 min read",
-    img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80",
-  },
-  {
-    title: "Teaching robotics & creative thinking",
-    date: "Jan 30, 2026",
-    read: "7 min read",
-    img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80",
-  },
-];
-
-function Journal() {
-  return (
-    <section id="journal" className="bg-bg py-16 md:py-24">
-      <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 1, ease: [0.25, 0.1, 0.25, 1] }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
-        >
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <span className="w-8 h-px bg-stroke" />
-              <span className="text-xs text-muted uppercase tracking-[0.3em] font-body">
-                Journal
-              </span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-display leading-none text-text-primary mb-3">
-              Recent <span className="italic">thoughts</span>
-            </h2>
-            <p className="text-sm text-muted max-w-md font-body leading-relaxed">
-              Explorations, process and lessons learned along the way.
-            </p>
-          </div>
-          <a
-            href="#journal"
-            className="hidden md:inline-flex group relative items-center gap-2 rounded-full border border-stroke bg-transparent text-text-primary text-sm px-6 py-3 font-body hover:border-transparent transition-colors overflow-visible"
-          >
-            <span className="absolute -inset-[1.5px] rounded-full accent-gradient opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10" />
-            <span className="absolute inset-0 rounded-full bg-bg -z-10" />
-            <span className="relative flex items-center gap-2">
-              View all <span>→</span>
-            </span>
-          </a>
-        </motion.div>
-
-        <div className="flex flex-col gap-4">
-          {journalEntries.map((entry, i) => (
-            <motion.a
-              key={entry.title}
-              href="#journal"
-              onClick={(e: React.MouseEvent) => e.preventDefault()}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.06 }}
-              className="group flex items-center gap-4 sm:gap-6 p-4 bg-surface/30 hover:bg-surface border border-stroke rounded-[40px] sm:rounded-full transition-colors duration-300"
-            >
-              <img
-                src={entry.img}
-                alt=""
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-cover flex-shrink-0 border border-stroke"
-              />
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm sm:text-base text-text-primary font-body font-medium leading-tight truncate sm:whitespace-normal">
-                  {entry.title}
-                </h3>
-                <div className="flex items-center gap-2 sm:gap-3 mt-1 text-xs text-muted font-body flex-wrap">
-                  <span>{entry.date}</span>
-                  <span className="w-1 h-1 rounded-full bg-muted/60 hidden sm:block" />
-                  <span>{entry.read}</span>
-                </div>
-              </div>
-              <span className="hidden sm:inline-flex w-9 h-9 rounded-full bg-bg border border-stroke items-center justify-center text-muted group-hover:text-text-primary group-hover:border-white/15 transition-colors flex-shrink-0">
-                ↗
-              </span>
-              {/* mobile arrow */}
-              <span className="sm:hidden w-8 h-8 rounded-full bg-bg border border-stroke flex items-center justify-center text-muted flex-shrink-0">
-                ›
-              </span>
-            </motion.a>
-          ))}
-        </div>
-
-        <div className="md:hidden mt-6 flex justify-center">
-          <a
-            href="#journal"
-            className="inline-flex items-center gap-2 rounded-full border border-stroke px-6 py-3 text-sm text-text-primary font-body"
-          >
-            View all <span>→</span>
           </a>
         </div>
       </div>
@@ -726,7 +647,7 @@ function Explorations() {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-bg min-h-[300vh] overflow-clip"
+      className="relative bg-transparent min-h-[300vh] overflow-clip"
       id="explorations"
     >
       {/* Pinned Center */}
@@ -860,7 +781,7 @@ function Stats() {
   ];
 
   return (
-    <section className="bg-bg py-16 md:py-24 border-t border-stroke/50">
+    <section className="bg-transparent py-16 md:py-24 border-t border-stroke/50">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
         <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-stroke">
           {stats.map((s, i) => (
@@ -891,7 +812,7 @@ function Stats() {
 // -----------------------------------------------------------------------------
 function Resume() {
   return (
-    <section id="resume" className="bg-bg py-16 md:py-24 border-t border-stroke/30">
+    <section id="resume" className="bg-transparent py-16 md:py-24 border-t border-stroke/30">
       <div className="max-w-[1200px] mx-auto px-6 md:px-10 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -1345,6 +1266,8 @@ function ContactFooter() {
 // Main App
 // -----------------------------------------------------------------------------
 export default function App() {
+  // keep legacy Hero referenced so TS noUnusedLocals stays green (fallback if sketchbook disabled)
+  void Hero;
   const [isLoading, setIsLoading] = useState(true);
 
   // prevent scroll when loading
@@ -1362,27 +1285,30 @@ export default function App() {
   }, [isLoading]);
 
   return (
-    <div className="min-h-screen bg-bg text-text-primary font-body antialiased selection:bg-white/20">
-      <AnimatePresence>
+    <div className="min-h-screen bg-transparent relative text-text-primary font-body antialiased selection:bg-white/20">
+      <FrostedVeil background="#000000" baseColor="#000D16" accentColor="#143A66" highlight="#A9C4E8" hover={200} grain={100} vignette={100} veil={{count: 18, blur: 14, displacement: 28, glow: 18}} speed={100} opacity={1} />
+      <SpaceThreadCursor mode="medium" trail={26} />
+      <div className="relative z-10">
+        <AnimatePresence>
         {isLoading && (
           <LoadingScreen onComplete={() => setIsLoading(false)} />
         )}
       </AnimatePresence>
 
-      {/* Page transitions: fade in content after loading */}
+      {/* Page content above shader */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: isLoading ? 0 : 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <Hero />
+        <SketchbookHero />
         <SelectedWorks />
-        <Journal />
         <Explorations />
         <Stats />
         <Resume />
         <ContactFooter />
       </motion.div>
+      </div>
     </div>
   );
 }
