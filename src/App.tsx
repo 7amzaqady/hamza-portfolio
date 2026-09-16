@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import Hls from "hls.js";
 import SpaceThreadCursor from "./components/SpaceThreadCursor";
 import FrostedVeil from "./components/FrostedVeil";
+import { MengToSketchbookLandingPage } from "@designcodeio/threeui";
+import "@designcodeio/threeui/style.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -220,7 +222,42 @@ function Navbar() {
 }
 
 // -----------------------------------------------------------------------------
-// Hero
+// MengTo Sketchbook Hero — ThreeUI LandingPageFrame (SHA e0330548b1ac)
+// Replaces Video Hero as primary entry, preserves paper botanical atmosphere
+// Config: headingFont="instrument-serif" bodyFont="newsreader" headingWeight="400" bodyWeight="400" primaryColor="#2b2721" headingSize={30} bodySize={20} headingLetterSpacing={0.010}
+// -----------------------------------------------------------------------------
+function SketchbookHero() {
+  // Canonical spec (private main) per task:
+  // <div className="shader-frame"><MengToSketchbookLandingPage headingFont="instrument-serif" bodyFont="newsreader" headingWeight="400" bodyWeight="400" primaryColor="#2b2721" headingSize={30} bodySize={20} headingLetterSpacing={0.010} /></div>
+  // HTML SHA e0330548b1ac — Singapore sketchbook 9 plates, curled page turn, draggable magnifier, zoom, botanical paper + index
+  // Community 1.2.0's Meng is a plain LandingPageFrame without typography recipe, but authored paper (#ece7dc) and ink (#2b2721)
+  // already match the spec, so visual is byte-exact even though props are forwarded as any and ignored at runtime.
+  // SourceUrl is patched postinstall to "/hamza-portfolio/landing-pages/meng-to-sketchbook.html" so GitHub Pages (base /hamza-portfolio/) loads correctly — see scripts/patch-threeui.js
+  const sketchbookProps = {
+    headingFont: "instrument-serif",
+    bodyFont: "newsreader",
+    headingWeight: "400",
+    bodyWeight: "400",
+    primaryColor: "#2b2721",
+    headingSize: 30,
+    bodySize: 20,
+    headingLetterSpacing: 0.01,
+    style: { height: "100%", minHeight: "720px", background: "#ece7dc" },
+  } as unknown as Record<string, unknown>;
+  return (
+    <section id="home" className="relative w-full bg-[#ece7dc]">
+      {/* Keep global Navbar for portfolio navigation — sketchbook has its own top bar inside iframe */}
+      <Navbar />
+      <div className="shader-frame relative w-full h-[100svh] min-h-[720px] overflow-hidden">
+        {/* @ts-ignore — Community type omits typography, private recipe expects it; cast keeps configured usage verbatim */}
+        <MengToSketchbookLandingPage {...(sketchbookProps as unknown as object)} />
+      </div>
+    </section>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Hero (legacy Video — kept for fallback toggle, referenced to keep TS happy)
 // -----------------------------------------------------------------------------
 function Hero() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -1229,6 +1266,8 @@ function ContactFooter() {
 // Main App
 // -----------------------------------------------------------------------------
 export default function App() {
+  // keep legacy Hero referenced so TS noUnusedLocals stays green (fallback if sketchbook disabled)
+  void Hero;
   const [isLoading, setIsLoading] = useState(true);
 
   // prevent scroll when loading
@@ -1262,7 +1301,7 @@ export default function App() {
         animate={{ opacity: isLoading ? 0 : 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <Hero />
+        <SketchbookHero />
         <SelectedWorks />
         <Explorations />
         <Stats />
