@@ -11,15 +11,9 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
-    "framer-motion": "^13.4.0",
-    "gsap": "^3.15.0",
-    "hls.js": "^1.7.3",
-    "motion": "^13.4.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.4",
-    "tailwindcss": "^4.3.3",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
