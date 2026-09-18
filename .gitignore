@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# Raw source assets (large PNGs generated for the final optimised images)
+raw-assets/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
