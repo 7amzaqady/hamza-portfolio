@@ -1,177 +1,113 @@
-import { useRef } from "react";
-import { motion } from "motion/react";
-import { useLang } from "../i18n/useLang";
-import { useLocalTime } from "../hooks";
-import { CAPABILITIES, UI } from "../data/ui";
-import { PROFILE } from "../data/content";
-import { scrollToSection } from "../lib/scroll";
+import { motion, useInView } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
+import { useRef } from 'react'
+import heroPoster from '../assets/hero-poster.jpg'
+import WordsPullUp from '../components/WordsPullUp'
 
-const NAME_LINES = {
-  ar: ["حمزة", "قاضي"],
-  en: ["HAMZA", "QADY"],
-};
+const NAV_ITEMS = [
+  { label: 'Our story', href: '#about' },
+  { label: 'Collective', href: '#features' },
+  { label: 'Workshops', href: '#features' },
+  { label: 'Programs', href: '#features' },
+  { label: 'Inquiries', href: '#about' },
+] as const
+
+const HERO_VIDEO =
+  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_170732_8a9ccda6-5cff-4628-b164-059c500a2b41.mp4'
+
+const EASE = [0.16, 1, 0.3, 1] as const
 
 export default function Hero() {
-  const { lang, isAr } = useLang();
-  const time = useLocalTime();
-  const spotRef = useRef<HTMLDivElement | null>(null);
-  const lines = NAME_LINES[lang];
-
-  const moveSpot = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = spotRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    el.style.setProperty("--spot-x", `${e.clientX - rect.left}px`);
-    el.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);
-  };
-
-  const resetSpot = () => {
-    const el = spotRef.current;
-    if (!el) return;
-    el.style.setProperty("--spot-x", "-40%");
-    el.style.setProperty("--spot-y", "-40%");
-  };
+  const contentRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(contentRef, { once: true })
 
   return (
-    <section
-      id="top"
-      className="relative flex min-h-[92svh] flex-col justify-between overflow-hidden pt-28 pb-16 md:pt-36"
-    >
-      {/* background */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="grid-lines fade-mask absolute inset-0" />
-        <div
-          className="absolute top-[-18%] left-1/2 h-[46rem] w-[46rem] -translate-x-1/2 rounded-full opacity-30 blur-[120px]"
-          style={{ background: "radial-gradient(circle, #ff5a1f 0%, transparent 68%)" }}
+    <section className="h-screen bg-black p-4 md:p-6">
+      <div className="relative h-full overflow-hidden rounded-2xl md:rounded-[2rem]">
+        <img
+          src={heroPoster}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover"
         />
-      </div>
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src={HERO_VIDEO}
+          poster={heroPoster}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+        />
 
-      <div className="mx-auto w-full max-w-[1600px] px-5 md:px-10">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-wrap items-center gap-x-8 gap-y-3"
-        >
-          <span className="flex items-center gap-2 text-xs text-muted">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
-            {UI.heroAvailable[lang]}
-          </span>
-          <span className="text-xs text-muted">
-            {UI.heroBasedIn[lang]} — {PROFILE.location[lang]}
-          </span>
-          <span className="text-xs text-muted tabular-nums">
-            {UI.localTime[lang]} {time}
-          </span>
-        </motion.div>
+        <div className="noise-overlay pointer-events-none absolute inset-0 opacity-[0.7] mix-blend-overlay" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
 
-        {/* name with a cursor-tracked highlight */}
-        <div
-          className="relative mt-8 select-none md:mt-12"
-          onMouseMove={moveSpot}
-          onMouseLeave={resetSpot}
-          style={{ ["--spot-x" as string]: "-40%", ["--spot-y" as string]: "-40%" }}
-        >
-          <motion.h1
-            initial={{ y: "12%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1.1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="display text-hero"
-          >
-            <span className="block">{lines[0]}</span>
-            <span className="flex items-baseline gap-[0.12em]">
-              <span className="block">{lines[1]}</span>
-              <span className="hidden text-[0.16em] font-normal tracking-widest text-muted md:block">
-                ©{new Date().getFullYear()}
-              </span>
-            </span>
-          </motion.h1>
-
-          <span ref={spotRef} aria-hidden="true" className="spot-text__glow display text-hero absolute inset-0">
-            <span className="block">{lines[0]}</span>
-            <span className="block">{lines[1]}</span>
-          </span>
-        </div>
-
-        <div className="mt-10 grid gap-10 border-line border-t pt-8 md:mt-16 md:grid-cols-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-5"
-          >
-            <p className="eyebrow mb-3">{PROFILE.role[lang]}</p>
-            <p className="max-w-[38ch] text-sm leading-relaxed text-muted">
-              {isAr
-                ? "أبني هويات بصرية وتجارب رقمية لعلامات بدها تُفتكر، من أول فكرة لحد آخر ملف تسليم."
-                : "I build visual identities and digital experiences for brands that want to be remembered — from first idea to final handover."}
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap items-start gap-3 md:col-span-4"
-          >
-            <button
-              onClick={() => scrollToSection("work")}
-              className="group relative overflow-hidden rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-bg"
-            >
-              <span className="relative z-10">{UI.navWork[lang]}</span>
-              <span className="absolute inset-0 z-0 translate-y-full bg-accent transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="link-wipe py-3.5 text-sm text-muted transition-colors hover:text-ink"
-            >
-              {UI.navContact[lang]}
-            </button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="flex items-end justify-between gap-6 md:col-span-3 md:flex-col md:items-end md:justify-start"
-          >
-            <button
-              onClick={() => scrollToSection("work")}
-              className="flex items-center gap-3 text-xs text-muted"
-            >
-              <span className="relative flex h-10 w-5 justify-center overflow-hidden rounded-full border border-line">
-                <motion.span
-                  className="mt-2 h-1.5 w-1.5 rounded-full bg-accent"
-                  animate={{ y: [0, 18, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </span>
-              {UI.heroScroll[lang]}
-            </button>
-
-            <span className="hidden text-[10px] tracking-[0.3em] text-muted uppercase md:block">
-              {UI.heroSince[lang]}
-            </span>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* capabilities marquee */}
-      <div className="relative mt-14 border-line border-y py-4 md:mt-20">
-        <div className="flex overflow-hidden">
-          <div className="marquee-track flex shrink-0 items-center gap-10 whitespace-nowrap pe-10">
-            {[...CAPABILITIES[lang], ...CAPABILITIES[lang]].map((cap, i) => (
-              <span key={`${cap}-${i}`} className="flex items-center gap-10 text-sm text-muted">
-                {cap}
-                <span className="text-accent">✳</span>
-              </span>
+        <nav className="absolute left-1/2 top-0 z-20 -translate-x-1/2 rounded-b-2xl bg-black px-4 py-2 md:rounded-b-3xl md:px-8">
+          <ul className="flex items-center gap-3 sm:gap-6 md:gap-12 lg:gap-14">
+            {NAV_ITEMS.map((item) => (
+              <li key={item.label}>
+                <a
+                  href={item.href}
+                  className="whitespace-nowrap text-[10px] sm:text-xs md:text-sm"
+                  style={{ color: 'rgba(225, 224, 204, 0.8)' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#E1E0CC'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'rgba(225, 224, 204, 0.8)'
+                  }}
+                >
+                  {item.label}
+                </a>
+              </li>
             ))}
+          </ul>
+        </nav>
+
+        <div
+          ref={contentRef}
+          className="absolute bottom-0 left-0 right-0 z-10 px-5 pb-5 sm:px-8 sm:pb-8 md:px-10 md:pb-10 lg:px-12 lg:pb-12"
+        >
+          <div className="grid grid-cols-1 items-end gap-6 md:grid-cols-12 md:gap-8">
+            <div className="md:col-span-8">
+              <WordsPullUp
+                text="Prisma"
+                showAsterisk
+                className="text-[26vw] font-medium leading-[0.85] tracking-[-0.07em] sm:text-[24vw] md:text-[22vw] lg:text-[20vw] xl:text-[19vw] 2xl:text-[20vw]"
+                style={{ color: '#E1E0CC' }}
+              />
+            </div>
+
+            <div className="relative z-10 flex flex-col items-start gap-5 md:col-span-4 md:gap-6 md:pb-2">
+              <motion.p
+                className="max-w-md text-xs text-primary/70 sm:text-sm md:text-base"
+                style={{ lineHeight: 1.2 }}
+                initial={{ y: 20, opacity: 0 }}
+                animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+                transition={{ delay: 0.5, duration: 0.8, ease: EASE }}
+              >
+                Prisma is a worldwide network of visual artists, filmmakers and
+                storytellers bound not by place, status or labels but by passion
+                and hunger to unlock potential through our unique perspectives.
+              </motion.p>
+
+              <motion.a
+                href="#features"
+                className="group inline-flex items-center gap-2 rounded-full bg-primary py-1 pl-5 pr-1 text-sm font-medium text-black transition-all hover:gap-3 sm:pl-6 sm:text-base"
+                initial={{ y: 20, opacity: 0 }}
+                animate={isInView ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
+                transition={{ delay: 0.7, duration: 0.8, ease: EASE }}
+              >
+                Join the lab
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-black transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
+                  <ArrowRight className="h-4 w-4" style={{ color: '#E1E0CC' }} />
+                </span>
+              </motion.a>
+            </div>
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }
