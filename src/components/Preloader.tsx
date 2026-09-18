@@ -16,7 +16,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const duration = reduced ? 0 : 1600;
+    const duration = reduced ? 0 : 1200;
     const start = performance.now();
     let raf = 0;
 
@@ -45,7 +45,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
         {[0, 1, 2].map((i) => (
           <motion.div
             key={i}
-            className="h-full flex-1 bg-bg-soft"
+            className="h-full flex-1 bg-gradient-to-b from-night to-bg"
             initial={{ y: 0 }}
             animate={exiting ? { y: "-101%" } : { y: 0 }}
             transition={{ duration: 0.95, delay: i * 0.09, ease: [0.76, 0, 0.24, 1] }}
@@ -81,7 +81,7 @@ export default function Preloader({ onDone }: { onDone: () => void }) {
         <div className="flex items-end justify-between gap-6">
           <div className="h-px w-full max-w-sm bg-line">
             <motion.div
-              className="h-px bg-accent"
+              className="h-px bg-accent shadow-[0_0_20px_rgba(242,180,92,0.7)]"
               style={{ width: `${count}%` }}
             />
           </div>

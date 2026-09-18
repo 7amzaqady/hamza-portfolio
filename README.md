@@ -12,6 +12,7 @@ scrolling and a fully RTL-aware layout.
 | Tailwind CSS v4 (`@tailwindcss/vite`) | Styling + design tokens |
 | `motion` (Framer Motion) | Reveals, overlays, marquees, page transitions |
 | `lenis` | Smooth inertia scrolling |
+| `@fontsource*` | Self-hosted Inter, Instrument Serif, IBM Plex Sans Arabic |
 
 ## Scripts
 
@@ -49,13 +50,15 @@ src/
     RevealText.tsx            # masked line-by-line heading reveal
     SectionHeading.tsx        # shared eyebrow + title + meta block
   sections/
-    Hero.tsx                  # name with cursor-following gradient spotlight + marquee
+    Hero.tsx                  # full-bleed night-field photograph, centred display type
     Work.tsx                  # 6 featured projects, alternating layout
     CaseStudy.tsx             # full-screen case overlay (ESC / arrows / next project)
     About.tsx                 # bio, stats, capabilities, experience
     Services.tsx              # services list + 4-step process
     Contact.tsx               # validated form → mailto, socials, local time
-android/                      # (not used)
+src/assets/hero/
+  hero-wide.jpg               # desktop hero photograph (16:9)
+  hero-tall.jpg               # mobile hero photograph (<768px)
 ```
 
 ## Editing content
@@ -68,20 +71,33 @@ android/                      # (not used)
 Every user-facing string exists in Arabic and English; missing a translation is a
 type error because both are required by `Record<Lang, string>`.
 
-## Design system
+## Design system — "Nightfield"
 
-- Palette: `#0a0a0a` background, `#f4f1ea` ink, `#ff5a1f` accent, `#d9ff3d` lime.
-- Type: Instrument Serif for Latin display, Rubik for body **and** for Arabic
-  display (the `.display` utility switches family/weight under `:lang(ar)`).
+- Palette: `#05080f` night background, `#eef1f7` ink, `#8b9ab4` muted, and a
+  single warm accent `#f2b45c` (the gold light in the hero photograph).
+  Everything else is transparency over the dark ground.
+- Type: Instrument Serif for Latin display, **Inter** for Latin body, **IBM Plex
+  Sans Arabic** for Arabic (body and display — the `.display` utility switches
+  family under `:lang(ar)`). All three are self-hosted, no external requests.
 - Custom utilities in `index.css`: `.display`, `.text-hollow`, `.eyebrow`,
-  `.grid-lines`, `.fade-mask`, `.link-wipe`, `.spot-text__glow`, `.marquee-track`.
+  `.halo`, `.grid-lines`, `.fade-mask`, `.link-wipe`, `.cue-drop`, `.blink-dot`,
+  and the hero pair `.hero-image-mask` (edge fade that can't cut against the next
+  section) + `.hero-scrim` (top nav scrim, vignette, warm bloom, bottom fade).
 - Roles: `[data-cursor]` picks a cursor state (`view`, `drag`, `link`),
   `[data-magnetic]` makes a button magnetically follow the pointer.
 
+## Swapping the hero photograph
+
+Drop the new file over `src/assets/hero/hero-wide.jpg` (desktop, landscape) and
+`src/assets/hero/hero-tall.jpg` (mobile, portrait). Nothing else changes — the
+scrims, mask and parallax are tuned to keep the middle of the frame clear, so
+choose a shot with some empty sky in the upper half and the subject low in the
+frame.
+
 ## Accessibility & motion
 
-- `prefers-reduced-motion` disables Lenis, the grain overlay and shortens the
-  preloader.
+- `prefers-reduced-motion` disables Lenis, the grain overlay, the hero parallax
+  and shortens the preloader.
 - The custom cursor only activates on fine pointers (mouse/trackpad); touch and
   keyboard users keep native behaviour.
 - All interactive elements are real buttons/links with labels; `:focus-visible`

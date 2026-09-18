@@ -1,177 +1,153 @@
 import { useRef } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import heroWide from "../assets/hero/hero-wide.jpg";
+import heroTall from "../assets/hero/hero-tall.jpg";
+import { HERO_TITLE, UI } from "../data/ui";
+import { PROFILE } from "../data/content";
 import { useLang } from "../i18n/useLang";
 import { useLocalTime } from "../hooks";
-import { CAPABILITIES, UI } from "../data/ui";
-import { PROFILE } from "../data/content";
 import { scrollToSection } from "../lib/scroll";
 
-const NAME_LINES = {
-  ar: ["حمزة", "قاضي"],
-  en: ["HAMZA", "QADY"],
-};
+const EASE = [0.16, 1, 0.3, 1] as const;
 
-export default function Hero() {
-  const { lang, isAr } = useLang();
+/** Entrance helper: everything is held until the preloader hands over. */
+function rise(ready: boolean, delay: number) {
+  return {
+    initial: { opacity: 0, y: 26 },
+    animate: ready ? { opacity: 1, y: 0 } : { opacity: 0, y: 26 },
+    transition: { duration: 1, delay, ease: EASE },
+  };
+}
+
+export default function Hero({ ready = true }: { ready?: boolean }) {
+  const { lang } = useLang();
   const time = useLocalTime();
-  const spotRef = useRef<HTMLDivElement | null>(null);
-  const lines = NAME_LINES[lang];
+  const reduced = useReducedMotion() ?? false;
 
-  const moveSpot = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = spotRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    el.style.setProperty("--spot-x", `${e.clientX - rect.left}px`);
-    el.style.setProperty("--spot-y", `${e.clientY - rect.top}px`);
-  };
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"],
+  });
 
-  const resetSpot = () => {
-    const el = spotRef.current;
-    if (!el) return;
-    el.style.setProperty("--spot-x", "-40%");
-    el.style.setProperty("--spot-y", "-40%");
-  };
+  // The photograph drifts slower than the page, the words drift slightly ahead.
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "10%"]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "-7%"]);
+  const contentFade = useTransform(scrollYProgress, [0, 0.9], [1, reduced ? 1 : 0]);
 
   return (
     <section
+      ref={sectionRef}
       id="top"
-      className="relative flex min-h-[92svh] flex-col justify-between overflow-hidden pt-28 pb-16 md:pt-36"
+      className="relative isolate flex min-h-[100svh] flex-col overflow-hidden"
     >
-      {/* background */}
-      <div className="pointer-events-none absolute inset-0 -z-10">
-        <div className="grid-lines fade-mask absolute inset-0" />
-        <div
-          className="absolute top-[-18%] left-1/2 h-[46rem] w-[46rem] -translate-x-1/2 rounded-full opacity-30 blur-[120px]"
-          style={{ background: "radial-gradient(circle, #ff5a1f 0%, transparent 68%)" }}
-        />
-      </div>
+      {/* ---------------------------------------------------------------- image */}
+      <motion.div
+        aria-hidden="true"
+        style={{ y: imageY }}
+        className="pointer-events-none absolute inset-x-0 -top-[14%] -bottom-[14%] -z-10"
+      >
+        <picture>
+          <source media="(max-width: 767px)" srcSet={heroTall} />
+          <img
+            src={heroWide}
+            alt=""
+            className="hero-image-mask h-full w-full object-cover object-center"
+          />
+        </picture>
+      </motion.div>
 
-      <div className="mx-auto w-full max-w-[1600px] px-5 md:px-10">
+      {/* Gradient scrims: readable nav on top, page fade at the bottom. */}
+      <div aria-hidden="true" className="hero-scrim pointer-events-none absolute inset-0 -z-10" />
+
+      {/* -------------------------------------------------------------- content */}
+      <motion.div
+        style={{ y: contentY, opacity: contentFade }}
+        className="relative mx-auto flex w-full max-w-[1180px] flex-1 flex-col items-center justify-center px-6 pt-32 pb-16 text-center md:pt-36"
+      >
+        <motion.span
+          {...rise(ready, 0.08)}
+          className="inline-flex items-center gap-3 rounded-full border border-white/12 bg-white/[0.06] px-4 py-1.5 text-[11px] leading-none text-ink/80 backdrop-blur-md"
+        >
+          <span className="relative flex h-1.5 w-1.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" />
+            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-accent" />
+          </span>
+          <span>{UI.heroAvailable[lang]}</span>
+          <span className="h-3 w-px bg-white/15" />
+          <span className="text-ink/60">{PROFILE.role[lang]}</span>
+        </motion.span>
+
+        <h1 className="display text-hero mt-7 max-w-[24ch] text-balance md:mt-9">
+          {HERO_TITLE[lang].map((line, i) => (
+            <span key={line} className="block overflow-hidden pb-[0.08em]">
+              <motion.span
+                className="block"
+                initial={{ y: "112%" }}
+                animate={ready ? { y: "0%" } : { y: "112%" }}
+                transition={{ duration: 1.25, delay: 0.16 + i * 0.11, ease: EASE }}
+              >
+                {line}
+              </motion.span>
+            </span>
+          ))}
+        </h1>
+
+        <motion.p
+          {...rise(ready, 0.52)}
+          className="mt-6 max-w-[56ch] text-balance text-sm leading-relaxed text-ink/72 md:mt-7 md:text-base"
+        >
+          {UI.heroIntro[lang]}
+        </motion.p>
+
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-wrap items-center gap-x-8 gap-y-3"
+          {...rise(ready, 0.64)}
+          className="mt-9 flex flex-col items-center gap-2 sm:flex-row sm:gap-3 md:mt-11"
         >
-          <span className="flex items-center gap-2 text-xs text-muted">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-            </span>
-            {UI.heroAvailable[lang]}
-          </span>
-          <span className="text-xs text-muted">
-            {UI.heroBasedIn[lang]} — {PROFILE.location[lang]}
-          </span>
-          <span className="text-xs text-muted tabular-nums">
-            {UI.localTime[lang]} {time}
-          </span>
+          <button
+            onClick={() => scrollToSection("work")}
+            className="halo group relative overflow-hidden rounded-full border border-ink/25 bg-ink/[0.06] px-8 py-3.5 text-sm font-medium backdrop-blur-md transition-colors duration-500 hover:border-transparent hover:text-bg"
+          >
+            <span className="relative z-10">{UI.heroCtaPrimary[lang]}</span>
+            <span className="absolute inset-0 z-0 translate-y-full bg-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
+          </button>
+
+          <button
+            onClick={() => scrollToSection("contact")}
+            className="link-wipe px-3 py-3.5 text-sm text-ink/70 transition-colors duration-300 hover:text-ink"
+          >
+            {UI.heroCtaSecondary[lang]}
+          </button>
         </motion.div>
+      </motion.div>
 
-        {/* name with a cursor-tracked highlight */}
-        <div
-          className="relative mt-8 select-none md:mt-12"
-          onMouseMove={moveSpot}
-          onMouseLeave={resetSpot}
-          style={{ ["--spot-x" as string]: "-40%", ["--spot-y" as string]: "-40%" }}
+      {/* ----------------------------------------------------------- bottom bar */}
+      <motion.div
+        {...rise(ready, 0.82)}
+        className="relative mx-auto flex w-full max-w-[1600px] items-center justify-between gap-6 border-t border-line px-5 py-5 text-[11px] text-muted md:px-10"
+      >
+        <span className="hidden items-center gap-3 md:flex">
+          <span className="h-px w-10 bg-line" />
+          {UI.heroBasedIn[lang]} — {PROFILE.location[lang]}
+        </span>
+
+        <button
+          onClick={() => scrollToSection("work")}
+          className="group mx-auto flex flex-col items-center gap-2 md:mx-0"
         >
-          <motion.h1
-            initial={{ y: "12%", opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1.1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="display text-hero"
-          >
-            <span className="block">{lines[0]}</span>
-            <span className="flex items-baseline gap-[0.12em]">
-              <span className="block">{lines[1]}</span>
-              <span className="hidden text-[0.16em] font-normal tracking-widest text-muted md:block">
-                ©{new Date().getFullYear()}
-              </span>
-            </span>
-          </motion.h1>
-
-          <span ref={spotRef} aria-hidden="true" className="spot-text__glow display text-hero absolute inset-0">
-            <span className="block">{lines[0]}</span>
-            <span className="block">{lines[1]}</span>
+          <span className="tracking-[0.24em] uppercase transition-colors group-hover:text-ink">
+            {UI.heroScroll[lang]}
           </span>
-        </div>
+          <span className="relative flex h-8 w-4 justify-center overflow-hidden rounded-full border border-line">
+            <span className="cue-drop mt-1.5 h-1.5 w-1.5 rounded-full bg-accent" />
+          </span>
+        </button>
 
-        <div className="mt-10 grid gap-10 border-line border-t pt-8 md:mt-16 md:grid-cols-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="md:col-span-5"
-          >
-            <p className="eyebrow mb-3">{PROFILE.role[lang]}</p>
-            <p className="max-w-[38ch] text-sm leading-relaxed text-muted">
-              {isAr
-                ? "أبني هويات بصرية وتجارب رقمية لعلامات بدها تُفتكر، من أول فكرة لحد آخر ملف تسليم."
-                : "I build visual identities and digital experiences for brands that want to be remembered — from first idea to final handover."}
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap items-start gap-3 md:col-span-4"
-          >
-            <button
-              onClick={() => scrollToSection("work")}
-              className="group relative overflow-hidden rounded-full bg-ink px-7 py-3.5 text-sm font-medium text-bg"
-            >
-              <span className="relative z-10">{UI.navWork[lang]}</span>
-              <span className="absolute inset-0 z-0 translate-y-full bg-accent transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
-            </button>
-            <button
-              onClick={() => scrollToSection("contact")}
-              className="link-wipe py-3.5 text-sm text-muted transition-colors hover:text-ink"
-            >
-              {UI.navContact[lang]}
-            </button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.6 }}
-            className="flex items-end justify-between gap-6 md:col-span-3 md:flex-col md:items-end md:justify-start"
-          >
-            <button
-              onClick={() => scrollToSection("work")}
-              className="flex items-center gap-3 text-xs text-muted"
-            >
-              <span className="relative flex h-10 w-5 justify-center overflow-hidden rounded-full border border-line">
-                <motion.span
-                  className="mt-2 h-1.5 w-1.5 rounded-full bg-accent"
-                  animate={{ y: [0, 18, 0] }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                />
-              </span>
-              {UI.heroScroll[lang]}
-            </button>
-
-            <span className="hidden text-[10px] tracking-[0.3em] text-muted uppercase md:block">
-              {UI.heroSince[lang]}
-            </span>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* capabilities marquee */}
-      <div className="relative mt-14 border-line border-y py-4 md:mt-20">
-        <div className="flex overflow-hidden">
-          <div className="marquee-track flex shrink-0 items-center gap-10 whitespace-nowrap pe-10">
-            {[...CAPABILITIES[lang], ...CAPABILITIES[lang]].map((cap, i) => (
-              <span key={`${cap}-${i}`} className="flex items-center gap-10 text-sm text-muted">
-                {cap}
-                <span className="text-accent">✳</span>
-              </span>
-            ))}
-          </div>
-        </div>
-      </div>
+        <span className="hidden items-center gap-3 tabular-nums md:flex">
+          {UI.localTime[lang]} {time}
+          <span className="h-px w-10 bg-line" />
+        </span>
+      </motion.div>
     </section>
   );
 }

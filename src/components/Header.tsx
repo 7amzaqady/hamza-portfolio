@@ -13,6 +13,8 @@ const NAV = [
   { id: "contact", label: UI.navContact },
 ];
 
+const EASE = [0.16, 1, 0.3, 1] as const;
+
 export default function Header() {
   const { lang, isAr, toggle } = useLang();
   const [scrolled, setScrolled] = useState(false);
@@ -20,7 +22,7 @@ export default function Header() {
   const time = useLocalTime();
   const { scrollY, scrollYProgress } = useScroll();
 
-  useMotionValueEvent(scrollY, "change", (value) => setScrolled(value > 32));
+  useMotionValueEvent(scrollY, "change", (value) => setScrolled(value > 24));
 
   useEffect(() => {
     lockScroll(open);
@@ -40,60 +42,63 @@ export default function Header() {
   return (
     <>
       <header
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
+        className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-500 ${
           scrolled
-            ? "border-line border-b bg-bg/70 backdrop-blur-xl"
+            ? "border-b border-line bg-bg/72 backdrop-blur-xl"
             : "border-b border-transparent"
         }`}
       >
-        <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-4 px-5 md:h-20 md:px-10">
+        <div className="mx-auto grid h-18 max-w-[1600px] grid-cols-[1fr_auto] items-center gap-4 px-5 md:h-24 md:grid-cols-[1fr_auto_1fr] md:px-10">
+          {/* wordmark */}
           <button
             onClick={() => go("top")}
-            className="group flex items-center gap-2.5"
+            className="group flex items-center gap-2.5 justify-self-start"
             aria-label={UI.navHome[lang]}
           >
-            <span className="grid h-8 w-8 place-items-center rounded-full border border-line text-[11px] font-semibold tracking-tight">
-              {PROFILE.initials[lang]}
+            <span className="font-display text-[1.35rem] leading-none tracking-tight md:text-2xl">
+              {PROFILE.name[lang]}
             </span>
-            <span className="hidden text-sm font-medium sm:block">{PROFILE.name[lang]}</span>
-            <span className="h-1.5 w-1.5 rounded-full bg-accent transition-transform duration-500 group-hover:scale-150" />
+            <span className="mb-2 h-1 w-1 rounded-full bg-accent blink-dot" />
           </button>
 
-          <nav className="hidden items-center gap-9 md:flex">
+          {/* centred navigation */}
+          <nav className="hidden items-center gap-10 md:flex">
             {NAV.map((item) => (
               <button
                 key={item.id}
                 onClick={() => go(item.id)}
-                className="link-wipe text-sm text-muted transition-colors hover:text-ink"
+                className="link-wipe text-[13px] text-ink/70 transition-colors duration-300 hover:text-ink"
               >
                 {item.label[lang]}
               </button>
             ))}
           </nav>
 
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex items-center gap-2 justify-self-end md:gap-3">
             <button
               onClick={toggle}
-              className="flex items-center gap-2 rounded-full border border-line px-3 py-1.5 text-[11px] tracking-wider transition-colors hover:border-ink/40"
+              className="flex items-center gap-1.5 rounded-full border border-line px-3 py-1.5 text-[11px] leading-none tracking-wider transition-colors duration-300 hover:border-ink/35"
               aria-label={UI.langLabel[lang]}
             >
               <span className={isAr ? "text-ink" : "text-muted"}>ع</span>
-              <span className="text-line">/</span>
+              <span className="text-ink/20">/</span>
               <span className={isAr ? "text-muted" : "text-ink"}>EN</span>
             </button>
 
             <button
               onClick={() => go("contact")}
               data-magnetic
-              className="hidden rounded-full bg-ink px-5 py-2 text-xs font-medium text-bg transition-colors hover:bg-accent md:block"
+              className="group relative hidden overflow-hidden rounded-full border border-ink/25 px-5 py-2 text-xs font-medium backdrop-blur-md transition-colors duration-500 hover:border-transparent hover:text-bg md:block"
             >
-              {UI.navContact[lang]}
+              <span className="relative z-10">{UI.navContact[lang]}</span>
+              <span className="absolute inset-0 z-0 translate-y-full bg-ink transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0" />
             </button>
 
             <button
               onClick={() => setOpen((v) => !v)}
-              className="flex h-9 items-center gap-2 rounded-full border border-line px-3 md:hidden"
+              className="flex h-9 w-9 items-center justify-center rounded-full border border-line backdrop-blur-md md:hidden"
               aria-expanded={open}
+              aria-label={open ? UI.close[lang] : UI.menu[lang]}
             >
               <span className="flex flex-col gap-1">
                 <span
@@ -126,7 +131,7 @@ export default function Header() {
             animate={{ clipPath: "inset(0 0 0% 0)" }}
             exit={{ clipPath: "inset(0 0 100% 0)" }}
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-between bg-bg-soft px-5 pt-24 pb-8 md:hidden"
+            className="fixed inset-0 z-40 flex flex-col justify-between bg-gradient-to-b from-night to-bg px-6 pt-28 pb-8 md:hidden"
             data-lenis-prevent
           >
             <nav className="flex flex-col">
@@ -135,17 +140,17 @@ export default function Header() {
                   key={item.id}
                   initial={{ y: 40, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.12 + i * 0.06, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ delay: 0.12 + i * 0.06, duration: 0.6, ease: EASE }}
                   onClick={() => go(item.id)}
-                  className="flex items-baseline justify-between border-line border-b py-5 text-right"
+                  className="flex items-baseline justify-between border-b border-line py-5 text-start"
                 >
-                  <span className="display text-[13vw] leading-none">{item.label[lang]}</span>
+                  <span className="display text-[12vw] leading-none">{item.label[lang]}</span>
                   <span className="eyebrow">{`0${i + 1}`}</span>
                 </motion.button>
               ))}
             </nav>
 
-            <div className="flex items-end justify-between">
+            <div className="flex items-end justify-between gap-6">
               <div className="flex flex-col gap-2">
                 {PROFILE.socials.map((s) => (
                   <a
@@ -153,13 +158,13 @@ export default function Header() {
                     href={s.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="link-wipe text-sm text-muted"
+                    className="link-wipe w-fit text-sm text-muted"
                   >
                     {s.label}
                   </a>
                 ))}
               </div>
-              <div className="text-right">
+              <div className="text-end">
                 <p className="eyebrow mb-1">{UI.localTime[lang]}</p>
                 <p className="font-display text-2xl tabular-nums">{time}</p>
               </div>

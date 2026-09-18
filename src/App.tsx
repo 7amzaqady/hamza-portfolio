@@ -35,7 +35,7 @@ function Site() {
       <Header />
 
       <main>
-        <Hero />
+        <Hero ready={!loading} />
         <Work />
         <About />
         <Services />

@@ -2,6 +2,12 @@ import type { Lang } from "../i18n/context";
 
 type Copy = Record<Lang, string>;
 
+/** The hero headline, one array entry per rendered line. */
+export const HERO_TITLE: Record<Lang, string[]> = {
+  ar: ["حيث تنهض الفكرة", "من قلب الصمت"],
+  en: ["Where ideas rise", "through the silence"],
+};
+
 export const UI = {
   navHome: { ar: "الرئيسية", en: "Home" },
   navWork: { ar: "الأعمال", en: "Work" },
@@ -18,6 +24,12 @@ export const UI = {
   heroScroll: { ar: "انزل للأسفل", en: "Scroll" },
   heroBasedIn: { ar: "مقيم في", en: "Based in" },
   heroSince: { ar: "يعمل منذ 2019", en: "Working since 2019" },
+  heroIntro: {
+    ar: "بحوّل الأفكار لعلامات بصرية هادية وواضحة. تصميم بيشتغل بلا ضجة، بيوصل من أول نظرة، وبيضل قوي بعد سنين.",
+    en: "I turn ideas into calm, precise visual identities — design that works without noise, lands at first glance, and still holds years later.",
+  },
+  heroCtaPrimary: { ar: "شوف الأعمال", en: "View the work" },
+  heroCtaSecondary: { ar: "احكي معي", en: "Start a conversation" },
 
   worksEyebrow: { ar: "أعمال مختارة", en: "Selected work" },
   worksTitle: { ar: "مشاريع تبني علامات", en: "Work that builds brands" },
