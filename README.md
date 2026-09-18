@@ -99,5 +99,19 @@ etc.) — no other change is needed.
 
 `.github/workflows/deploy.yml` builds the site and publishes `dist/` to GitHub
 Pages on every push to `main` (or manually via *workflow_dispatch*).
-`vite.config.ts` sets `base: '/hamza-portfolio/'` to match the Pages URL —
-change it if you deploy to a custom domain or a different repository name.
+PR previews: only `main` deploys — branch pushes just run lint/build checks.
+
+`vite.config.ts` resolves `base` as follows:
+
+| Context | base |
+| --- | --- |
+| `npm run dev` (local & sandbox previews) | `/` |
+| `npm run build` / `npm run preview` | `/hamza-portfolio/` |
+
+That sub-path matches the Pages URL `https://7amzaqady.github.io/hamza-portfolio/`.
+For a custom domain or a differently named repository, override it:
+
+```bash
+BASE_PATH=/ npm run build          # serve from the domain root
+BASE_PATH=/my-repo/ npm run build  # serve from another sub-path
+```
