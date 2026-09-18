@@ -1,29 +1,22 @@
-# hamza-portfolio
+# Prisma
 
-**المشروع فاضي عن قصد** — 2026-09-18.
+Landing page for a creative studio — rebuilt in the cinematic Prisma direction: dark, moody, warm cream type over full-bleed film.
 
-كل شي انحذف بناءً على الطلب: الكود، الستايلات، الصور، وإعدادات البناء. بانتظار
-الاتجاه الجديد (المرجع/التصميم الأفضل) لنبلّش من الصفر.
+## Stack
 
-ما في شي ضايع: النسخ القديمة كلها محفوظة بتاريخ الـgit وبترجع بأمر واحد.
+Vite · React 18 · TypeScript · Tailwind CSS 3 · Framer Motion · Lucide
 
-## استرجاع نسخة قديمة (لو احتجت)
-
-```bash
-git checkout 7ff5f7f -- .   # آخر نسخة: هيرو "Nightfield" + صورة الليل
-git checkout 9355c40 -- .   # النسخة الأصلية الأولى
-```
-
-وبعدها:
+## Scripts
 
 ```bash
-npm install && npm run dev
+npm install
+npm run dev      # local / sandbox preview
+npm run build    # production (GitHub Pages base path)
+npm run preview
 ```
 
-| Commit    | الوصف                                        |
-| --------- | -------------------------------------------- |
-| `7ff5f7f` | Rebuild the hero: Nightfield art direction    |
-| `9355c40` | النسخة الأصلية (الموقع الكامل الأول)          |
+## Sections
 
-> ملاحظة: الفرع `main` و النسخة المنشورة على GitHub Pages ما تغيّروا — الحذف صار
-> على هذا الفرع بس.
+1. **Hero** — inset rounded stage, looping film, hanging nav, giant pull-up wordmark
+2. **About** — mixed-style heading + scroll-linked character reveal
+3. **Features** — four-up studio tools grid
